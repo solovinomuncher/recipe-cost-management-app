@@ -1,0 +1,246 @@
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* main styling */
+body {
+  display: grid;
+  justify-items: center;
+}
+
+form {
+  display: grid;
+  justify-content: center;
+  max-width: 875px;
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  font-size: 2rem;
+  background: lightsteelblue;
+  border-bottom: 3px solid black;
+  padding: 30px 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.17rem;
+}
+
+legend {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 10px;
+}
+
+.table-headers {
+  display: grid;
+  text-align: center;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+fieldset p {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  padding-bottom: 10px;
+}
+
+fieldset p label {
+  display: inline-block;
+}
+
+fieldset p input {
+  font-size: 1.3rem;
+}
+
+fieldset p textarea {
+  font-family: inherit;
+  font-size: 1.3rem;
+}
+
+.recipe-inputs {
+  display: grid;
+  gap: 10px 1px;
+}
+
+.form-btns {
+  justify-self: center;
+  padding: 10px;
+}
+
+.btn-clear-recipe {
+  margin: 0px 20px;
+}
+
+.btn-resize-recipe,
+.btn-clear-recipe,
+.btn-costing-recipe {
+  padding: 10px;
+}
+
+.recipe-cost-printout {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.container {
+  display: grid;
+  padding: 40px 0;
+  max-width: 875px;
+  gap: 50px;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.ingredient {
+  display: grid;
+  border: 1px solid black;
+  padding: 10px;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+footer {
+  width: 100%;
+  display: grid;
+  background: lightsteelblue;
+  border-top: 3px solid black;
+  height: 75px;
+}
+
+footer p {
+  align-self: center;
+  justify-self: center;
+}

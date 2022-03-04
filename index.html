@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Cost Management App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <h1>Recipe Cost Management App</h1>
+    <form>
+        <fieldset>
+            <legend>Recipe Basics</legend>
+            <p>
+                <label for="recipe-name">Recipe Name</label>
+                <input type="text" id="recipe-name">
+            </p>
+            <p>
+                <label for="notes">Notes</label>
+                <textarea name="recipe-notes" id="recipe-notes" cols="30" rows="10">Ignore</textarea>
+            </p>
+            <p>
+                <label for="original-recipe-serving-size">Original Recipe Serving Size</label>
+                <input type="number" id="original-recipe-serving-size" placeholder="ignore if you only want costs">
+            </p>
+            <p>
+                <label for="new-recipe-serving-size">New Recipe Serving Size</label>
+                <input type="number" id="new-recipe-serving-size" placeholder="ignore if you only want costs">
+            </p>
+        </fieldset>
+        <!-- <fieldset>
+            <legend>Imperial Or Metric</legend>
+            <p>
+                <input type="radio" id="imperial" name="imperial-or-metric" value="imperial">
+                <label for="imperial">Imperial</label>
+            </p>
+            <p>
+                <input type="radio" id="metric" name="imperial-or-metric" value="metric">
+                <label for="metric">Metric</label>
+            </p>
+        </fieldset> -->
+        <fieldset class="recipe-inputs">
+            <legend>Original Recipe Ingredients</legend>
+            <div class="table-headers">
+                <p>QTY.</p>
+                <p>MEASUREMENT</p>
+                <p>INGREDIENT</p>
+                <p>BULK QTY.</p>
+                <p>BULK MEASUREMENT</p>
+                <p>BULK COST</p>
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="0" class="quantity quantity-0">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="0">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups" selected>Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="0">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="0">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="0">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons" selected>Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="0">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="1" class="quantity quantity-1">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="1">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="1">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="1">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="1">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="1">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="2" class="quantity quantity-2">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="2">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="2">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="2">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="2">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="2">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="3" class="quantity quantity-3">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="3">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="3">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="3">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="3">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="3">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="4" class="quantity quantity-4">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="4">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="4">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="4">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="4">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="4">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="5" class="quantity quantity-5">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="5">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="5">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="5">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="5">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="5">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="6" class="quantity quantity-6">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="6">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="6">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="6">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="6">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="6">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="7" class="quantity quantity-7">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="7">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="7">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="7">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="7">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="7">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="8" class="quantity quantity-8">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="8">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="8">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="8">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="8">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="8">
+            </div>
+            <div class="recipe-measured-ingredients__ingredient">
+                <input type="number" placeholder="Qty." data-ingredient-index="9" class="quantity quantity-9">
+                <select name="measurement-type" id="measurement-type" data-ingredient-index="9">
+                    <optgroup label="Dry">
+                        <option value=""></option>
+                        <option value="cups">Cups</option>
+                        <option value="dashes">Dashes</option>
+                        <option value="ounces">Ounces</option>
+                        <option value="pinches">Pinches</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                        <option value="pints">Pints</option>
+                        <option value="quarts">Quarts</option>
+                        <option value="tablespoons">Tablespoons</option>
+                        <option value="teaspoons">Teaspoons</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="ingredient-name" placeholder="Ingredient Name" data-ingredient-index="9">
+                <input type="number" placeholder="Bulk Qty." id="bulk-weight" data-ingredient-bulk-cost-index="9">
+                <select name="measurement-type" id="measurement-type" data-ingredient-bulk-cost-index="9">
+                    <option value=""></option>
+                    <optgroup label="Dry">
+                        <option value="ounces">Ounces</option>
+                        <option value="pounds">Pounds</option>
+                        <option value="each">Each</option>
+                    </optgroup>
+                    <optgroup label="Liquids">
+                        <option value="cups">Cups</option>
+                        <option value="gallons">Gallons</option>
+                        <option value="fluid-ounces">Fluid Ounces</option>
+                    </optgroup>
+                </select>
+                <input type="number" placeholder="Bulk Cost" id="bulk-cost" data-ingredient-bulk-cost-index="9">
+            </div>
+            <!-- <button class="btn-add-ingredient">+ Add Ingredient</button> -->
+        </fieldset>
+        <div class="form-btns">
+            <button class="btn-resize-recipe">Resize Recipe</button>
+            <button class="btn-clear-recipe">Clear</button>
+            <button class="btn-costing-recipe">Costing Recipe</button>
+        </div>
+    </form>
+    <main class="recipe-cost-printout"></main>
+    <footer>
+        <p><small>Copyright © by Erick Esqueda. All Rights Reserved.</small></p>
+    </footer>
+</body>
+</html>
