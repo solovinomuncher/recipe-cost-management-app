@@ -1,0 +1,24 @@
+{
+  "name": "recipe-cost-management-app",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solovinomuncher/recipe-cost-management-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solovinomuncher/recipe-cost-management-app/issues"
+  },
+  "homepage": "https://github.com/solovinomuncher/recipe-cost-management-app#readme",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}

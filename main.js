@@ -1,16 +1,25 @@
-let ingredients, bulkIngredients, ingredientCosts;
 let trueRecipeName;
+let recipeInfo = {};
 
-const resizeRecipe = (e) => {
-  e.preventDefault();
+const collectRecipeInfo = () => {
   const recipeName = document.querySelector("#recipe-name").value;
+  recipeInfo.recipeName = recipeName;
+
   const recipeNotes = document.querySelector("#recipe-notes").value;
+  recipeInfo.recipeNotes = recipeNotes;
+
   const recipeOGServingSize = document.querySelector(
     "#original-recipe-serving-size"
   ).value;
-  const recipeNewServingSize = document.querySelector(
-    "#new-recipe-serving-size"
-  ).value;
+  if (recipeOGServingSize === NaN) {
+    recipeInfo.servingSize = 1;
+  } else {
+    recipeInfo.servingSize = recipeOGServingSize;
+  }
+
+  const fullIngredientFactory = (qty, unit, name) => {
+    return { qty, unit, name };
+  };
 
   const collectIngredientInputs = () => {
     let ingredientInputArray = [];
@@ -19,18 +28,7 @@ const resizeRecipe = (e) => {
         `[data-ingredient-index="${i}"]`
       );
     }
-    return ingredientInputArray;
-  };
 
-  const ingredientInputArray = collectIngredientInputs();
-  console.log(ingredientInputArray);
-  console.log(ingredientInputArray[0]);
-
-  const fullIngredientFactory = (qty, unit, name) => {
-    return { qty, unit, name };
-  };
-
-  const generateFullIngredientArray = () => {
     let fullIngredientArray = [];
     for (let i = 0; i < 10; i++) {
       let qty, unit, name, fullIngredient;
@@ -55,34 +53,8 @@ const resizeRecipe = (e) => {
     return fullIngredientArray;
   };
 
-  const fullIngredientArray = generateFullIngredientArray();
-  console.log(fullIngredientArray[0]);
-  console.log(fullIngredientArray);
+  recipeInfo.fullIngredients = collectIngredientInputs();
 
-  const calculateRecipeRatio = () => {
-    if (recipeNewServingSize === "") {
-      return 1;
-    } else {
-      return recipeNewServingSize / recipeOGServingSize;
-    }
-  };
-
-  const newRecipeRatio = calculateRecipeRatio();
-
-  fullIngredientArray.forEach((ingredient) => {
-    ingredient.qty = ingredient.qty * newRecipeRatio;
-  });
-
-  console.log(fullIngredientArray);
-  ingredients = fullIngredientArray;
-  trueRecipeName = recipeName;
-};
-
-const btnResizeRecipe = document.querySelector(".btn-resize-recipe");
-btnResizeRecipe.addEventListener("click", resizeRecipe);
-
-const costingRecipe = (e) => {
-  e.preventDefault();
   const collectBulkCostInputs = () => {
     let bulkCostInputArray = [];
     for (let i = 0; i < 10; i++) {
@@ -90,18 +62,11 @@ const costingRecipe = (e) => {
         `[data-ingredient-bulk-cost-index="${i}"]`
       );
     }
-    return bulkCostInputArray;
-  };
 
-  const bulkCostInputArray = collectBulkCostInputs();
-  console.log(bulkCostInputArray);
-  console.log(bulkCostInputArray[0]);
+    const fullBulkCostFactory = (qty, unit, cost) => {
+      return { qty, unit, cost };
+    };
 
-  const fullBulkCostFactory = (qty, unit, cost) => {
-    return { qty, unit, cost };
-  };
-
-  const generateFullBulkCostArray = () => {
     let fullBulkCostArray = [];
     for (let i = 0; i < 10; i++) {
       let qty, unit, cost, fullBulkCost;
@@ -114,7 +79,7 @@ const costingRecipe = (e) => {
           cost = input.value;
         }
       });
-      if (qty === undefined) {
+      if (qty === "") {
         console.log("undefined");
       } else {
         fullBulkCost = fullBulkCostFactory(qty, unit, cost);
@@ -126,156 +91,125 @@ const costingRecipe = (e) => {
     return fullBulkCostArray;
   };
 
-  const fullBulkCostArray = generateFullBulkCostArray();
-  console.log(fullBulkCostArray[0]);
-  console.log(fullBulkCostArray);
+  recipeInfo.bulkCosts = collectBulkCostInputs();
 
-  // scenario: 2 cup milk needed, 5 gallon milk have, how many cups in have?
-  // recipe qty = 2
-  // recipe units = cup
-  // bulk qty = 5
-  // bulk units = gallon
+  recipeInfo.recipeCosts = [];
 
-  // how many (recipe units) are in (bulk units)? = ratio
-  // eg how many cups are in a gallon = 16 cups per 1 gallon
-  // how many (recipe units) are in (bulk in recipe units)?
-  // eg multiply 5 and 16 = 96 cups
+  console.log(recipeInfo);
 
-  // scenario continued: 5gal/96 cup milk have, 2 cups need, ratio?
-  // what percentage is (recipe qty in recipe units) of (bulk qty in recipe units)?
-  // eg 2 cups / 96 cups = 2%
+  return recipeInfo;
+};
 
-  // most common bulk imperial units:
-  // WEIGHT: ounces (oz) and pounds (lbs)
-  // VOLUME: cups (cups) and gallons (gal)
-  // DO NOT USE: 1 gal = 128 fluid oz (water)
-  // DO NOT USE: 1 cup = 8 fluid oz (water)
+const resizeRecipe = (e) => {
+  e.preventDefault();
 
-  // 1 cup = 16 tbsp
-  // 1 cup = 48 tsp
+  const resizeRecipeFn = (recipe, newServingSize) => {
+    let copiedRecipe = JSON.parse(JSON.stringify(recipe));
+    let ingredients = copiedRecipe.fullIngredients;
+    let newRecipeRatio = newServingSize / copiedRecipe.servingSize;
 
-  // 1 gal = 16 cups
-  // 1 lb = 16 oz
+    for (let i = 0; i < ingredients.length; i++) {
+      ingredients[i].qty *= newRecipeRatio;
+    }
 
-  // 1 fluid oz = 2 tbsp
-  // 1 fluid oz = 6 tsp
+    copiedRecipe.servingSize = newServingSize;
 
-  // 1 pint = 2 cups
-  // 1 pint = 16 fl oz
-  // 1 quart = 4 cups
-  // 1 quart = 32 fl oz
-  // 1 gal = 8 pints
-  // 1 gal = 4 quarts
-
-  // COMMON DRY CUP TO WEIGHTS
-  // 1 cup flour = 4.2 oz
-  // 1 cup whole wheat flour = 4.6 oz
-  // 1 cup almond flour = 3.9 oz
-
-  console.log(fullBulkCostArray);
-  bulkIngredients = fullBulkCostArray;
-  console.log(ingredients);
-  let recipeIngredientCosts = [];
-
-  const recipeIngredientCostFactory = (ingredient, recipeCost) => {
-    return { ingredient, recipeCost };
+    return copiedRecipe;
   };
 
-  for (let i = 0; i < ingredients.length; i++) {
-    let newBulkQty, percentage, recipeIngredientCost, object, multiplier;
+  let recipeInfo = collectRecipeInfo();
+  const newServingSize = document.querySelector(
+    "#new-recipe-serving-size"
+  ).value;
+
+  console.log(recipeInfo);
+
+  recipeInfo = resizeRecipeFn(recipeInfo, newServingSize);
+
+  console.log(recipeInfo);
+  // displayIngredientCosts(); // here or elsewhere?
+};
+
+const btnResizeRecipe = document.querySelector(".btn-resize-recipe");
+btnResizeRecipe.addEventListener("click", resizeRecipe);
+
+const costingRecipe = (e) => {
+  e.preventDefault();
+
+  const determineMultiplier = (smallUnit, largeUnit, largeQty) => {
     if (
-      ingredients[i].unit === "cups" &&
-      bulkIngredients[i].unit === "gallons"
+      (smallUnit === "cups" && largeUnit === "gallons") ||
+      (smallUnit === "ounces" && largeUnit === "pounds") ||
+      (smallUnit === "tablespoons" && largeUnit === "cups")
     ) {
-      multiplier = 16;
+      return 16;
     } else if (
-      ingredients[i].unit === "cups" &&
-      bulkIngredients[i].unit === "fluid-ounces"
+      (smallUnit === "fluid-ounces" && largeUnit === "cups") ||
+      (smallUnit === "pint" && largeUnit === "gallon")
     ) {
-      multiplier = 1 / 8;
-    } else if (
-      ingredients[i].unit === "ounces" &&
-      bulkIngredients[i].unit === "pounds"
-    ) {
-      multiplier = 16;
-    } else if (
-      ingredients[i].unit === "tablespoons" &&
-      bulkIngredients[i].unit === "cups"
-    ) {
-      multiplier = 16;
-    } else if (
-      ingredients[i].unit === "teaspoons" &&
-      bulkIngredients[i].unit === "cups"
-    ) {
-      multiplier = 48;
-    } else if (
-      ingredients[i].unit === "tablespoons" &&
-      bulkIngredients[i].unit === "gallons"
-    ) {
-      multiplier = 256;
-    } else if (
-      ingredients[i].unit === "teaspoons" &&
-      bulkIngredients[i].unit === "gallons"
-    ) {
-      multiplier = 768;
-    } else if (
-      ingredients[i].unit === "fluid-ounces" &&
-      bulkIngredients[i].unit === "gallons"
-    ) {
-      multiplier = 128;
-    } else if (
-      ingredients[i].unit === "fluid-ounces" &&
-      bulkIngredients[i].unit === "cups"
-    ) {
-      multiplier = 8;
-    } else if (
-      ingredients[i].unit === "tablespoons" &&
-      bulkIngredients[i].unit === "fluid-ounces"
-    ) {
-      multiplier = 2;
-    } else if (
-      ingredients[i].unit === "teaspoons" &&
-      bulkIngredients[i].unit === "fluid-ounces"
-    ) {
-      multiplier = 6;
-    } else if (
-      ingredients[i].unit === "pint" &&
-      bulkIngredients[i].unit === "gallon"
-    ) {
-      multiplier = 8;
-    } else if (
-      ingredients[i].unit === "quart" &&
-      bulkIngredients[i].unit === "gallon"
-    ) {
-      multiplier = 4;
-    } else if (
-      ingredients[i].unit === "each" &&
-      bulkIngredients[i].unit === "each"
-    ) {
-      multiplier = bulkIngredients[i].qty;
-    } else if (
-      ingredients[i].unit === "dashes" ||
-      ingredients[i].unit === "pinches"
-    ) {
-      multiplier = bulkIngredients[i].qty;
+      return 8;
+    } else if (smallUnit === "cups" && largeUnit === "fluid-ounces") {
+      return 1 / 8;
+    } else if (smallUnit === "teaspoons" && largeUnit === "cups") {
+      return 48;
+    } else if (smallUnit === "tablespoons" && largeUnit === "gallons") {
+      return 256;
+    } else if (smallUnit === "teaspoons" && largeUnit === "gallons") {
+      return 768;
+    } else if (smallUnit === "fluid-ounces" && largeUnit === "gallons") {
+      return 128;
+    } else if (smallUnit === "tablespoons" && largeUnit === "fluid-ounces") {
+      return 2;
+    } else if (smallUnit === "teaspoons" && largeUnit === "fluid-ounces") {
+      return 6;
+    } else if (smallUnit === "quart" && largeUnit === "gallon") {
+      return 4;
+    } else if (smallUnit === "each" && largeUnit === "each") {
+      return largeQty;
+    } else if (smallUnit === "dashes" || smallUnit === "pinches") {
       console.log("cannot calculate, placeholder here");
+      return largeQty;
     } else {
-      multiplier = 1;
       console.log("assuming same units");
+      return 1;
     }
-    newBulkQty = bulkIngredients[i].qty * multiplier;
-    percentage = ingredients[i].qty / newBulkQty;
-    console.log(percentage);
-    recipeIngredientCost = percentage * bulkIngredients[i].cost;
-    console.log(recipeIngredientCost);
-    object = recipeIngredientCostFactory(
-      ingredients[i].name,
-      recipeIngredientCost
-    );
-    recipeIngredientCosts.push(object);
-  }
-  console.log(recipeIngredientCosts);
-  ingredientCosts = recipeIngredientCosts;
+  };
+
+  const calculateRecipeCosts = (recipe) => {
+    let copiedRecipe = JSON.parse(JSON.stringify(recipe));
+    let ingredients = copiedRecipe.fullIngredients;
+    let bulkIngredients = copiedRecipe.bulkCosts;
+
+    for (let i = 0; i < ingredients.length; i++) {
+      let multiplier = determineMultiplier(
+        ingredients[i].unit,
+        bulkIngredients[i].unit,
+        bulkIngredients[i].qty
+      );
+
+      let ingredientQty = ingredients[i].qty;
+      let bulkSmallUnitQty = bulkIngredients[i].qty * multiplier;
+      let costRatio = ingredientQty / bulkSmallUnitQty;
+      let fullIngredientCost = bulkIngredients[i].cost * costRatio;
+
+      copiedRecipe.recipeCosts[i] = {
+        name: ingredients[i].name,
+        cost: round(fullIngredientCost, 2),
+      };
+    }
+
+    return copiedRecipe;
+  };
+
+  const round = (value, precision) => {
+    let multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+  };
+
+  let recipeInfo = collectRecipeInfo();
+
+  recipeInfo = calculateRecipeCosts(recipeInfo);
+  console.log(recipeInfo);
 
   displayIngredientCosts(); // here or elsewhere?
 };
@@ -304,21 +238,21 @@ const displayIngredientCosts = () => {
 
   let costs = 0;
 
-  ingredientCosts.forEach((ingredient) => {
+  recipeInfo.recipeCosts.forEach((ingredient) => {
     const div = document.createElement("div");
     div.classList.add("ingredient");
 
     const p1 = document.createElement("p");
     p1.classList.add("ingredient__name");
-    p1.textContent = `${ingredient.ingredient}`;
+    p1.textContent = `${ingredient.name}`;
     div.appendChild(p1);
 
     const p2 = document.createElement("p");
     p2.classList.add("ingredient__cost");
-    p2.textContent = `$${round(ingredient.recipeCost, 2)}`;
+    p2.textContent = `$${round(ingredient.cost, 2)}`;
     div.appendChild(p2);
 
-    costs += round(ingredient.recipeCost, 2);
+    costs += round(ingredient.cost, 2);
 
     container.appendChild(div);
   });

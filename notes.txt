@@ -1,0 +1,41 @@
+// scenario: 2 cup milk needed, 5 gallon milk have, how many cups in have?
+  // recipe qty = 2
+  // recipe units = cup
+  // bulk qty = 5
+  // bulk units = gallon
+
+  // how many (recipe units) are in (bulk units)? = ratio
+  // eg how many cups are in a gallon = 16 cups per 1 gallon
+  // how many (recipe units) are in (bulk in recipe units)?
+  // eg multiply 5 and 16 = 96 cups
+
+  // scenario continued: 5gal/96 cup milk have, 2 cups need, ratio?
+  // what percentage is (recipe qty in recipe units) of (bulk qty in recipe units)?
+  // eg 2 cups / 96 cups = 2%
+
+  // most common bulk imperial units:
+  // WEIGHT: ounces (oz) and pounds (lbs)
+  // VOLUME: cups (cups) and gallons (gal)
+  // DO NOT USE: 1 gal = 128 fluid oz (water)
+  // DO NOT USE: 1 cup = 8 fluid oz (water)
+
+  // 1 cup = 16 tbsp
+  // 1 cup = 48 tsp
+
+  // 1 gal = 16 cups
+  // 1 lb = 16 oz
+
+  // 1 fluid oz = 2 tbsp
+  // 1 fluid oz = 6 tsp
+
+  // 1 pint = 2 cups
+  // 1 pint = 16 fl oz
+  // 1 quart = 4 cups
+  // 1 quart = 32 fl oz
+  // 1 gal = 8 pints
+  // 1 gal = 4 quarts
+
+  // COMMON DRY CUP TO WEIGHTS
+  // 1 cup flour = 4.2 oz
+  // 1 cup whole wheat flour = 4.6 oz
+  // 1 cup almond flour = 3.9 oz
